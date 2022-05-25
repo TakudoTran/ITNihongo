@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SharingPostController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +17,9 @@ use App\Http\Controllers\SharingPostController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return redirect('home');
 });
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('user')->group(function (){
     Route::get('/login', [UserController::class, 'login'])->name('user.login-form');

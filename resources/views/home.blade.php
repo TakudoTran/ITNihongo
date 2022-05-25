@@ -61,178 +61,59 @@
                     </div>
                     <div class="post-slider owl-carousel">
                         <div class="item">
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/list/1.png')}}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
+                            @php($i = 0)
+                            @foreach($latestPosts as $latestPost)
+                                @if($i == 5)
+                                    @break
+                                @endif
+                                @php($i++)
+                                <a href="{{route('sharing.single-post',['id' => $latestPost->id])}}">
+                                    <div class="single-post-list-wrap">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <img src="{{$latestPost->main_img_path}}" alt="{{$latestPost->main_img_name}}">
                                             </div>
-                                            <h6 class="title"><a href="#">Himachal Pradesh rules in order to allow tourists </a></h6>
+                                            <div class="media-body">
+                                                <div class="details">
+                                                    <div class="post-meta-single">
+                                                        <ul>
+                                                            <li><i class="fa fa-clock-o"></i>{{$latestPost->getCreatedAttribute()}}/li>
+                                                        </ul>
+                                                    </div>
+                                                    <h6 class="title"><a href="#">{{$latestPost->title}}</a></h6>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/list/2.png')}}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="#">Online registration, booking for Vaishno Devi </a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/list/3.png')}}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="#">Detecting technologies in airports this year</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/list/4.png')}}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="#">The FAA will drone detect-ing in airports this year</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/list/5.png')}}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="#">Thailand makes it mand-atory for tourists to stay</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                </a>
+                            @endforeach
                         </div>
                         <div class="item">
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/list/1.png')}}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
+                            @php($i = 0)
+                            @foreach($latestPosts as $latestPost)
+                                @if($i > 5)
+                                    <a href="{{route('sharing.single-post',['id' => $latestPost->id])}}">
+                                        <div class="single-post-list-wrap">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <img src="{{$latestPost->main_img_path}}" alt="{{$latestPost->main_img_name}}">
+                                                </div>
+                                                <div class="media-body">
+                                                    <div class="details">
+                                                        <div class="post-meta-single">
+                                                            <ul>
+                                                                <li><i class="fa fa-clock-o"></i>{{$latestPost->getCreatedAttribute()}}/li>
+                                                            </ul>
+                                                        </div>
+                                                        <h6 class="title"><a href="#">{{$latestPost->title}}</a></h6>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <h6 class="title"><a href="#">Himachal Pradesh rules in order to allow tourists </a></h6>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/list/2.png')}}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="#">Online registration, booking for Vaishno Devi </a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/list/3.png')}}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="#">Detecting technologies in airports this year</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/list/4.png')}}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="#">The FAA will drone detect-ing in airports this year</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="single-post-list-wrap">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/list/5.png')}}" alt="img">
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="details">
-                                            <div class="post-meta-single">
-                                                <ul>
-                                                    <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                </ul>
-                                            </div>
-                                            <h6 class="title"><a href="#">Thailand makes it mand-atory for tourists to stay</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                    </a>
+                                @endif
+                                @php($i++)
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -253,8 +134,10 @@
                                             <li><i class="fa fa-clock-o"></i>08.22.2020</li>
                                         </ul>
                                     </div>
-                                    <h6 class="title"><a href="#">Uttarakhand’s Hemkund Sahib yatra to start from September 4</a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                                    <h6 class="title"><a href="#">Uttarakhand’s Hemkund Sahib yatra to start from
+                                            September 4</a></h6>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua. </p>
                                 </div>
                             </div>
                         </div>
@@ -270,8 +153,10 @@
                                             <li><i class="fa fa-clock-o"></i>08.22.2020</li>
                                         </ul>
                                     </div>
-                                    <h6 class="title"><a href="#">Uttarakhand’s Hemkund Sahib yatra to start from September 4</a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                                    <h6 class="title"><a href="#">Uttarakhand’s Hemkund Sahib yatra to start from
+                                            September 4</a></h6>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua. </p>
                                 </div>
                             </div>
                         </div>
@@ -283,16 +168,23 @@
                     </div>
                     <div class="social-area-list mb-4">
                         <ul>
-                            <li><a class="facebook" href="#"><i class="fa fa-facebook social-icon"></i><span>12,300</span><span>Like</span> <i class="fa fa-plus"></i></a></li>
-                            <li><a class="twitter" href="#"><i class="fa fa-twitter social-icon"></i><span>12,600</span><span>Followers</span> <i class="fa fa-plus"></i></a></li>
-                            <li><a class="youtube" href="#"><i class="fa fa-youtube-play social-icon"></i><span>1,300</span><span>Subscribers</span> <i class="fa fa-plus"></i></a></li>
-                            <li><a class="instagram" href="#"><i class="fa fa-instagram social-icon"></i><span>52,400</span><span>Followers</span> <i class="fa fa-plus"></i></a></li>
-                            <li><a class="google-plus" href="#"><i class="fa fa-google social-icon"></i><span>19,101</span><span>Subscribers</span> <i class="fa fa-plus"></i></a></li>
+                            <li><a class="facebook" href="#"><i
+                                        class="fa fa-facebook social-icon"></i><span>12,300</span><span>Like</span> <i
+                                        class="fa fa-plus"></i></a></li>
+                            <li><a class="twitter" href="#"><i class="fa fa-twitter social-icon"></i><span>12,600</span><span>Followers</span>
+                                    <i class="fa fa-plus"></i></a></li>
+                            <li><a class="youtube" href="#"><i
+                                        class="fa fa-youtube-play social-icon"></i><span>1,300</span><span>Subscribers</span>
+                                    <i class="fa fa-plus"></i></a></li>
+                            <li><a class="instagram" href="#"><i
+                                        class="fa fa-instagram social-icon"></i><span>52,400</span><span>Followers</span>
+                                    <i class="fa fa-plus"></i></a></li>
+                            <li><a class="google-plus" href="#"><i
+                                        class="fa fa-google social-icon"></i><span>19,101</span><span>Subscribers</span>
+                                    <i class="fa fa-plus"></i></a></li>
                         </ul>
                     </div>
-                    <div class="add-area">
-                        <a href="#"><img class="w-100" src="nextpage-lite/assets/img/add/6.png')}}" alt="img"></a>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -670,7 +562,9 @@
                     <div class="widget">
                         <h5 class="widget-title">ABOUT US</h5>
                         <div class="widget_about">
-                            <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
+                            <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                                aliqua. Quis ipsum ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel
+                                facilisis.</p>
                             <ul class="social-area social-area-2 mt-4">
                                 <li><a class="facebook-icon" href="#"><i class="fa fa-facebook"></i></a></li>
                                 <li><a class="twitter-icon" href="#"><i class="fa fa-twitter"></i></a></li>
@@ -724,7 +618,8 @@
                                                 <li><i class="fa fa-clock-o"></i>08.22.2020</li>
                                             </ul>
                                         </div>
-                                        <h6 class="title"><a href="#">Himachal Pradesh rules in order to allow tourists </a></h6>
+                                        <h6 class="title"><a href="#">Himachal Pradesh rules in order to allow
+                                                tourists </a></h6>
                                     </div>
                                 </div>
                             </div>
@@ -741,7 +636,8 @@
                                                 <li><i class="fa fa-clock-o"></i>08.22.2020</li>
                                             </ul>
                                         </div>
-                                        <h6 class="title"><a href="#">Himachal Pradesh rules in order to allow tourists </a></h6>
+                                        <h6 class="title"><a href="#">Himachal Pradesh rules in order to allow
+                                                tourists </a></h6>
                                     </div>
                                 </div>
                             </div>

@@ -4,10 +4,10 @@ namespace App\Traits;
 
 trait CheckAuthTraits
 {
-    public function checkAuth()
+    public function notLoggedIn()
     {
-        if(auth()->check()){
-            return redirect()->to('home');
+        if(!auth()->check()){
+            return true;
         }
     }
 }
