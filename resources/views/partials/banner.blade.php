@@ -35,73 +35,27 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-post-wrap style-white">
-                    <div class="thumb">
-                        <img src="{{asset('nextpage-lite/assets/img/post/1.png')}}" alt="img">
-                        <a class="tag-base tag-blue" href="#">Tech</a>
-                    </div>
-                    <div class="details">
-                        <h6 class="title"><a href="#">The FAA will test drone detecting technologies in airports this
-                                year</a></h6>
-                        <div class="post-meta-single mt-3">
-                            <ul>
-                                <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                            </ul>
+            @php($tags = ['Hot', 'Popular', 'New'])
+            @php($colors = ['red', 'purple', 'blue'])
+             @foreach($bannerRandomPosts as $post)
+                @php($i = rand(0,2))
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-post-wrap style-white">
+                        <div class="thumb">
+                            <img style="width: 265px; height: 193px" src="{{$post->main_img_path}}" alt="{{$post->main_img_name}}">
+                            <a class="tag-base tag-{{$colors[$i]}}" href="#">{{$tags[$i]}}</a>
+                        </div>
+                        <div class="details">
+                            <h6 class="title"><a href="{{route('sharing.single-post',['id' => $post->id])}}">{{$post->title}}</a></h6>
+                            <div class="post-meta-single mt-3">
+                                <ul>
+                                    <li><i class="fa fa-clock-o"></i>{{$post->getCreatedAttribute()}}</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-post-wrap style-white">
-                    <div class="thumb">
-                        <img src="{{asset('nextpage-lite/assets/img/post/2.png')}}" alt="img">
-                        <a class="tag-base tag-orange" href="#">Food</a>
-                    </div>
-                    <div class="details">
-                        <h6 class="title"><a href="#">Rocket Lab will resume launches no sooner than August 27th</a>
-                        </h6>
-                        <div class="post-meta-single mt-3">
-                            <ul>
-                                <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-post-wrap style-white">
-                    <div class="thumb">
-                        <img src="{{asset('nextpage-lite/assets/img/post/3.png')}}" alt="img">
-                        <a class="tag-base tag-blue" href="#">Tech</a>
-                    </div>
-                    <div class="details">
-                        <h6 class="title"><a href="#">Google Drive flaw may attackers fool you into install malware</a>
-                        </h6>
-                        <div class="post-meta-single mt-3">
-                            <ul>
-                                <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-post-wrap style-white">
-                    <div class="thumb">
-                        <img src="{{asset('nextpage-lite/assets/img/post/4.png')}}" alt="img">
-                        <a class="tag-base tag-orange" href="#">Food</a>
-                    </div>
-                    <div class="details">
-                        <h6 class="title"><a href="#">TikTok will sue the US over threatened ban</a></h6>
-                        <div class="post-meta-single mt-3">
-                            <ul>
-                                <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+             @endforeach
         </div>
     </div>
 </div>

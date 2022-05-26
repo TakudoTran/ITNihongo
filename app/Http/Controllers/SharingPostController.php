@@ -53,16 +53,15 @@ class SharingPostController extends Controller
 
     public function single_post($id)
     {
-        $featuredPosts = $this->sharingPost->inRandomOrder()->limit(3)->get();
-        $latestPosts = $this->sharingPost->latest()->limit(3)->get();
+
+        $featuredPosts = $this->sharingPost->inRandomOrder()->limit(5)->get();
+        $latestPosts = $this->sharingPost->latest()->limit(5)->get();
         $comments = $this->postComment->where(['parent_id' => '0', 'post_id' => $id])->get();
         $post = $this->sharingPost->find($id);
 
+
         $rates = Rate::where('post_id', $id)->get();
-        $total = 0;
-        foreach ($rates as $rate){
-            $total = $total + $rate->value;
-        }
+        $total = $this->getTotalRate($id);
         return view('app.sharing.post-detail', ['post' => $post,
             'featuredPosts' => $featuredPosts, 'latestPosts' => $latestPosts,
             'comments' => $comments, 'totalRate' => $total]);
@@ -176,7 +175,8 @@ class SharingPostController extends Controller
                 }
             return response()->json([
                 'code' => 200,
-                'message' => 'success'
+                'message' => 'success',
+                'totalRate' => $this->getTotalRate($id)
             ], 200);
         }
         catch(Exception $e){
@@ -185,5 +185,16 @@ class SharingPostController extends Controller
                 'message' => 'failed'
             ], 500);
         }
+    }
+
+    public function getTotalRate($post_id)
+    {
+        $rates = Rate::where('post_id', $post_id)->get();
+        $total = 0;
+        foreach ($rates as $rate){
+            $total = $total + $rate->value;
+        }
+        return $total;
+
     }
 }

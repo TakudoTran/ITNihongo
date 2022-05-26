@@ -41,15 +41,24 @@
                                 {!! $post->content!!}
                             </div>
                         </div>
+                        <div class="row">
+                            @foreach($post->detailImages as $img)
+                                <div class="col-lg-4">
+                                    <img style="height: 150px;object-fit: cover; " src="{{$img->img_path}}" alt="">
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                     {{--                    voting--}}
                     <hr>
                     <div class="row">
-                        <label><h2>Rating</h2></label>
-                        <div class="col-md-1" style="font-size: 30px; color:#606060; text-align: center;">
-                            <a href="" class="action_vote" data-url="{{route('sharing.rate',['id' => $post->id, 'type'=>'1'])}}"> <span class="glyphicon glyphicon-triangle-top col-md-12"></span></a>
-                            <span id="total-rate" class="col-md-12">{{$totalRate}}</span><!-- Number goes here -->
-                            <a href="" class="action_vote" data-url="{{route('sharing.rate',['id' => $post->id, 'type'=>'-1'])}}"><span class="glyphicon glyphicon-triangle-bottom col-md-12"></span></a>
+                        <div class="col-lg-8">
+                            <h2>Voting</h2>
+                            <div class="col-md-1" style="font-size: 30px; color:#606060; text-align: center;">
+                                <a href="" class="action_vote" data-url="{{route('sharing.rate',['id' => $post->id, 'type'=>'1'])}}"> <span class="glyphicon glyphicon-triangle-top col-md-12"></span></a>
+                                <p id="total-rate" class="col-md-12">{{$totalRate}}</p><!-- Number goes here -->
+                                <a href="" class="action_vote" data-url="{{route('sharing.rate',['id' => $post->id, 'type'=>'-1'])}}"><span class="glyphicon glyphicon-triangle-bottom col-md-12"></span></a>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -168,7 +177,7 @@
                                                     <img src="{{$post->main_img_path}}" alt="{{$post->main_img_name}}"/>
                                                 </div>
                                                 <div class="tn-title">
-                                                    <a href="{{route('sharing.single-post',['id' => $post->id])}}">{{$post->title}}</a>
+                                                    <a  href="{{route('sharing.single-post',['id' => $post->id])}}">{{$post->title}}</a>
                                                 </div>
                                             </div>
                                         @endforeach

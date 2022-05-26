@@ -3,6 +3,21 @@
 @section('title')
     <title>This is title</title>
 @endsection
+@section('custom_css')
+    <style>
+        img.img-latest {
+            max-height: 100px;
+            width: 100%;
+            object-fit: cover
+        }
+
+        img.img-trending {
+            max-height: 210px;
+            width: 100%;
+            object-fit: cover
+        }
+    </style>
+@endsection
 
 @section('content')
     <!-- banner area start -->
@@ -11,51 +26,62 @@
     <div class="post-area pd-top-75 pd-bottom-50" id="trending">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-md-6 ">
                     <div class="section-title">
                         <h6 class="title">Trending News</h6>
                     </div>
                     <div class="post-slider owl-carousel">
                         <div class="item">
+                            @php($i = 0)
                             <div class="trending-post">
-                                <div class="single-post-wrap style-overlay">
-                                    <div class="thumb">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/5.png')}}" alt="img">
-                                    </div>
-                                    <div class="details">
-                                        <div class="post-meta-single">
-                                            <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
+                                @foreach($trendingPosts as $trendingPost)
+                                    @if($i == 2)
+                                        @break
+                                    @endif
+                                    <div class="single-post-wrap style-overlay">
+                                        <div class="thumb">
+                                            <img class="img-trending" src="{{$trendingPost->main_img_path}}"
+                                                 alt="{{$trendingPost->main_img_name}}">
                                         </div>
-                                        <h6 class="title"><a href="#">dasdasdasd </a></h6>
-                                    </div>
-                                </div>
-                                <div class="single-post-wrap style-overlay">
-                                    <div class="thumb">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/6.png')}}" alt="img">
-                                    </div>
-                                    <div class="details">
-                                        <div class="post-meta-single">
-                                            <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
+                                        <div class="details">
+                                            <div class="post-meta-single">
+                                                <p><i class="fa fa-clock-o"></i>{{$trendingPost->getCreatedAttribute()}}
+                                                </p>
+                                            </div>
+                                            <h6 class="title">{{$trendingPost->title}}</h6>
                                         </div>
-                                        <h6 class="title"><a href="#">Fssssssssrantine</a></h6>
                                     </div>
-                                </div>
-                                <div class="single-post-wrap style-overlay">
-                                    <div class="thumb">
-                                        <img src="{{asset('nextpage-lite/assets/img/post/7.png')}}" alt="img">
-                                    </div>
-                                    <div class="details">
-                                        <div class="post-meta-single">
-                                            <p><i class="fa fa-clock-o"></i>December 26, 2018</p>
+                                    @php($i++)
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="item">
+                            @php($i = 0)
+                            <div class="trending-post">
+                                @foreach($trendingPosts as $trendingPost)
+                                    @if($i >= 2)
+                                        <div class="single-post-wrap style-overlay">
+                                            <div class="thumb">
+                                                <img class="img-trending" src="{{$trendingPost->main_img_path}}"
+                                                     alt="{{$trendingPost->main_img_name}}">
+                                            </div>
+                                            <div class="details">
+                                                <div class="post-meta-single">
+                                                    <p>
+                                                        <i class="fa fa-clock-o"></i>{{$trendingPost->getCreatedAttribute()}}
+                                                    </p>
+                                                </div>
+                                                <h6 class="title">{{$trendingPost->title}}</h6>
+                                            </div>
                                         </div>
-                                        <h6 class="title"><a href="#">Indore bags cleanest city</a></h6>
-                                    </div>
-                                </div>
+                                    @endif
+                                    @php($i++)
+                                @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-md-6 ">
                     <div class="section-title">
                         <h6 class="title">Latest News</h6>
                     </div>
@@ -71,16 +97,19 @@
                                     <div class="single-post-list-wrap">
                                         <div class="media">
                                             <div class="media-left">
-                                                <img src="{{$latestPost->main_img_path}}" alt="{{$latestPost->main_img_name}}">
+                                                <img class="img-latest" src="{{$latestPost->main_img_path}}"
+                                                     alt="{{$latestPost->main_img_name}}">
                                             </div>
                                             <div class="media-body">
                                                 <div class="details">
                                                     <div class="post-meta-single">
                                                         <ul>
-                                                            <li><i class="fa fa-clock-o"></i>{{$latestPost->getCreatedAttribute()}}/li>
+                                                            <li>
+                                                                <i class="fa fa-clock-o"></i>{{$latestPost->getCreatedAttribute()}}
+                                                            </li>
                                                         </ul>
                                                     </div>
-                                                    <h6 class="title"><a href="#">{{$latestPost->title}}</a></h6>
+                                                    <h6 class="title">{{$latestPost->title}}</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -91,21 +120,24 @@
                         <div class="item">
                             @php($i = 0)
                             @foreach($latestPosts as $latestPost)
-                                @if($i > 5)
+                                @if($i >= 5)
                                     <a href="{{route('sharing.single-post',['id' => $latestPost->id])}}">
                                         <div class="single-post-list-wrap">
                                             <div class="media">
                                                 <div class="media-left">
-                                                    <img src="{{$latestPost->main_img_path}}" alt="{{$latestPost->main_img_name}}">
+                                                    <img class="img-latest" src="{{$latestPost->main_img_path}}"
+                                                         alt="{{$latestPost->main_img_name}}">
                                                 </div>
                                                 <div class="media-body">
                                                     <div class="details">
                                                         <div class="post-meta-single">
                                                             <ul>
-                                                                <li><i class="fa fa-clock-o"></i>{{$latestPost->getCreatedAttribute()}}/li>
+                                                                <li>
+                                                                    <i class="fa fa-clock-o"></i>{{$latestPost->getCreatedAttribute()}}
+                                                                    /li>
                                                             </ul>
                                                         </div>
-                                                        <h6 class="title"><a href="#">{{$latestPost->title}}</a></h6>
+                                                        <h6 class="title">{{$latestPost->title}}</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -117,440 +149,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="section-title">
-                        <h6 class="title">What’s new</h6>
-                    </div>
-                    <div class="post-slider owl-carousel">
-                        <div class="item">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{asset('nextpage-lite/assets/img/post/8.png')}}" alt="img">
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-4 pt-1">
-                                        <ul>
-                                            <li><a class="tag-base tag-blue" href="#">Tech</a></li>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                        </ul>
-                                    </div>
-                                    <h6 class="title"><a href="#">Uttarakhand’s Hemkund Sahib yatra to start from
-                                            September 4</a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="single-post-wrap">
-                                <div class="thumb">
-                                    <img src="{{asset('nextpage-lite/assets/img/post/8.png')}}" alt="img">
-                                </div>
-                                <div class="details">
-                                    <div class="post-meta-single mb-4 pt-1">
-                                        <ul>
-                                            <li><a class="tag-base tag-blue" href="#">Tech</a></li>
-                                            <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                        </ul>
-                                    </div>
-                                    <h6 class="title"><a href="#">Uttarakhand’s Hemkund Sahib yatra to start from
-                                            September 4</a></h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="section-title">
-                        <h6 class="title">Join With Us</h6>
-                    </div>
-                    <div class="social-area-list mb-4">
-                        <ul>
-                            <li><a class="facebook" href="#"><i
-                                        class="fa fa-facebook social-icon"></i><span>12,300</span><span>Like</span> <i
-                                        class="fa fa-plus"></i></a></li>
-                            <li><a class="twitter" href="#"><i class="fa fa-twitter social-icon"></i><span>12,600</span><span>Followers</span>
-                                    <i class="fa fa-plus"></i></a></li>
-                            <li><a class="youtube" href="#"><i
-                                        class="fa fa-youtube-play social-icon"></i><span>1,300</span><span>Subscribers</span>
-                                    <i class="fa fa-plus"></i></a></li>
-                            <li><a class="instagram" href="#"><i
-                                        class="fa fa-instagram social-icon"></i><span>52,400</span><span>Followers</span>
-                                    <i class="fa fa-plus"></i></a></li>
-                            <li><a class="google-plus" href="#"><i
-                                        class="fa fa-google social-icon"></i><span>19,101</span><span>Subscribers</span>
-                                    <i class="fa fa-plus"></i></a></li>
-                        </ul>
-                    </div>
-
-                </div>
             </div>
         </div>
     </div>
-
-    <div class="bg-sky pd-top-80 pd-bottom-50" id="latest">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay-bg">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/9.png')}}" alt="img">
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single mb-3">
-                                <ul>
-                                    <li><a class="tag-base tag-blue" href="cat-fashion.html">fashion</a></li>
-                                    <li><p><i class="fa fa-clock-o"></i>08.22.2020</p></li>
-                                </ul>
-                            </div>
-                            <h6 class="title"><a href="#">A Comparison of the Sony FE 85mm f/1.4 GM and Sigma</a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/10.png')}}" alt="img">
-                            <p class="btn-date"><i class="fa fa-clock-o"></i>08.22.2020</p>
-                        </div>
-                        <div class="details">
-                            <h6 class="title"><a href="#">Rocket Lab will resume launches no sooner than</a></h6>
-                        </div>
-                    </div>
-                    <div class="single-post-wrap">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/11.png')}}" alt="img">
-                            <p class="btn-date"><i class="fa fa-clock-o"></i>08.22.2020</p>
-                        </div>
-                        <div class="details">
-                            <h6 class="title"><a href="#">P2P Exchanges in Africa Pivot: Nigeria and Kenya the</a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/12.png')}}" alt="img">
-                            <p class="btn-date"><i class="fa fa-clock-o"></i>08.22.2020</p>
-                        </div>
-                        <div class="details">
-                            <h6 class="title"><a href="#">Bitmex Restricts Ontario Residents as Mandated by</a></h6>
-                        </div>
-                    </div>
-                    <div class="single-post-wrap">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/13.png')}}" alt="img">
-                            <p class="btn-date"><i class="fa fa-clock-o"></i>08.22.2020</p>
-                        </div>
-                        <div class="details">
-                            <h6 class="title"><a href="#">The Bitcoin Network Now 7 Plants Worth of Power</a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="trending-post style-box">
-                        <div class="section-title">
-                            <h6 class="title">Trending News</h6>
-                        </div>
-                        <div class="post-slider owl-carousel">
-                            <div class="item">
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{asset('nextpage-lite/assets/img/post/list/1.png')}}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="#">Important to rate more liquidity</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{asset('nextpage-lite/assets/img/post/list/2.png')}}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="#">Sounds like John got the Josh</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{asset('nextpage-lite/assets/img/post/list/3.png')}}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="#">Grayscale's and Bitcoin Trusts</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{asset('nextpage-lite/assets/img/post/list/4.png')}}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="#">Sounds like John got the Josh</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap mb-0">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{asset('nextpage-lite/assets/img/post/list/5.png')}}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="#">Grayscale's and Bitcoin Trusts</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{asset('nextpage-lite/assets/img/post/list/1.png')}}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="#">Important to rate more liquidity</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{asset('nextpage-lite/assets/img/post/list/2.png')}}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="#">Sounds like John got the Josh</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{asset('nextpage-lite/assets/img/post/list/3.png')}}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="#">Grayscale's and Bitcoin Trusts</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{asset('nextpage-lite/assets/img/post/list/4.png')}}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="#">Sounds like John got the Josh</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-post-list-wrap mb-0">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img src="{{asset('nextpage-lite/assets/img/post/list/5.png')}}" alt="img">
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="details">
-                                                <div class="post-meta-single">
-                                                    <ul>
-                                                        <li><i class="fa fa-clock-o"></i>08.22.2020</li>
-                                                    </ul>
-                                                </div>
-                                                <h6 class="title"><a href="#">Grayscale's and Bitcoin Trusts</a></h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="pd-top-80 pd-bottom-50" id="grid">
         <div class="container">
+            <hr>
+            <div class="row mb-3">
+                <h2>Popular posts</h2>
+            </div>
             <div class="row">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/15.png')}}" alt="img">
-                            <a class="tag-base tag-purple" href="#">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
+                @php($tags = ['Hot', 'New', 'Popular'])
+                @php($colors = ['red', 'blue', 'purple'])
+                @foreach($highRatePosts as $post)
+                    @php($i = rand(0,2))
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="single-post-wrap style-overlay">
+                            <div class="thumb">
+                                <img style="height: 250px;object-fit: cover;" src="{{$post->main_img_path}}"
+                                     alt="{{$post->main_img_name}}">
+                                <a class="tag-base tag-{{$colors[$i]}}"
+                                   href="{{route('sharing.single-post',['id'=> $post->id])}}">{{$post['aggregate']}}</a>
                             </div>
-                            <h6 class="title"><a href="#">Why Are the Offspring of Older </a></h6>
+                            <div class="details">
+                                <div class="post-meta-single">
+                                    <p><i class="fa fa-clock-o"></i>{{$post->getCreatedAttribute()}}</p>
+                                </div>
+                                <h6 class="title"><a
+                                        href="{{route('sharing.single-post',['id'=> $post->id])}}">{{$post->title}}</a>
+                                </h6>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/16.png')}}" alt="img">
-                            <a class="tag-base tag-green" href="#">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="#">People Who Eat a Late Dinner May</a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/17.png')}}" alt="img">
-                            <a class="tag-base tag-red" href="#">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="#">Kids eat more calories in </a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/18.png')}}" alt="img">
-                            <a class="tag-base tag-purple" href="#">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="#">The FAA will test drone </a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/19.png')}}" alt="img">
-                            <a class="tag-base tag-red" href="#">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="#">Lifting Weights Makes Your Nervous</a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/20.png')}}" alt="img">
-                            <a class="tag-base tag-blue" href="#">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="#">New, Remote Weight-Loss Method </a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/21.png')}}" alt="img">
-                            <a class="tag-base tag-light-green" href="#">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="#">Social Connection Boosts Fitness App </a></h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-6">
-                    <div class="single-post-wrap style-overlay">
-                        <div class="thumb">
-                            <img src="{{asset('nextpage-lite/assets/img/post/22.png')}}" alt="img">
-                            <a class="tag-base tag-blue" href="#">Tech</a>
-                        </div>
-                        <div class="details">
-                            <div class="post-meta-single">
-                                <p><i class="fa fa-clock-o"></i>08.22.2020</p>
-                            </div>
-                            <h6 class="title"><a href="#">Internet For Things - New results </a></h6>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

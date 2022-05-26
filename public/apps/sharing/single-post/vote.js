@@ -12,6 +12,7 @@ function actionVote(event){
         success: function (data) {
             if (data.code === 200) {
                 console.log('success');
+                $("#total-rate").text(data.totalRate);
             }
         },
         error: function (data){
