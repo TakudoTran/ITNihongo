@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
                 'post_id' => $post->id,
                 'user_id' => $user[rand(0,($user->count()-1))]->id,
             ]);
+            // Rate::factory(rand(1, $user->count()));
         });
     }
 }
