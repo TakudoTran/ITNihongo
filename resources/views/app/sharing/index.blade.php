@@ -6,6 +6,11 @@
 
 
 @section('custom_css')
+    <style>
+        .banner-inner .banner-details  p{
+            display: block
+        }
+    </style>
 @endsection
 
 @section('custom_js')
