@@ -1474,3 +1474,9 @@ ul.timeline-comments li > ul > li:first-child > .timeline-comment-wrapper > .car
     bottom: 50%;
     z-index: 1;
 }
+.interact > a:active, a:hover, a:focus{
+    color:#097bed ;
+}
+a.action_vote{
+    color:#000000;
+}
