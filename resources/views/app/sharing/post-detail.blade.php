@@ -45,9 +45,9 @@
                     {{--                    voting--}}
                     <div class="row">
                         <div class="col-md-1" style="font-size: 30px; color:#606060; text-align: center;">
-                            <a href="" class="btn btn-success action_vote" data-url="{{route('sharing.rate',['id' => $post->id, 'type'=>'1'])}}">UP</a>
+                            <a href="" class="action_vote" data-url="{{route('sharing.rate',['id' => $post->id, 'type'=>'1'])}}"> <span class="glyphicon glyphicon-triangle-top col-md-12"></span></a>
                             <span id="total-rate" class="col-md-12">{{$totalRate}}</span><!-- Number goes here -->
-                            <a href="" class="btn btn-success action_vote" data-url="{{route('sharing.rate',['id' => $post->id, 'type'=>'-1'])}}">DOWN</a>
+                            <a href="" class="action_vote" data-url="{{route('sharing.rate',['id' => $post->id, 'type'=>'-1'])}}"><span class="glyphicon glyphicon-triangle-bottom col-md-12"></span></a>
                         </div>
                     </div>
                     {{--comments--}}
