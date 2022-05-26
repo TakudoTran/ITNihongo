@@ -18,7 +18,7 @@ class CreateRatesTable extends Migration
             $table->foreignId('user_id');
             $table->foreignId('post_id');
             $table->foreignId('comment_id')->nullable();
-            $table->enum('value',[-1,1]);
+            $table->enum('value',[-1,1])->nullable();
             $table->timestamps();
         });
     }
