@@ -20,6 +20,9 @@ class HomeController extends Controller
         $trendingPosts = $this->sharingPost->inRandomOrder()->limit(3)->get();
         $latestPosts = $this->sharingPost->latest()->limit(10)->get();
         $newPost = $this->sharingPost->latest()->limit(3)->get();
-        return view('home',['latestPosts' => $latestPosts]);
+
+        $bannerPost = $this->sharingPost->latest()->limit(1)->get();
+        return view('home',['latestPosts' => $latestPosts,
+            'bannerPost'=> $bannerPost]);
     }
 }
