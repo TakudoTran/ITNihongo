@@ -33,21 +33,24 @@ class SharingPostController extends Controller
     private $postImage;
     private $sharingPost;
     private $postComment;
+    private $rate;
 
-    public function __construct(Category $category,PostImage $postImage, SharingPost $sharingPost, PostComment $postComment)
+    public function __construct(Category $category, PostImage $postImage, SharingPost $sharingPost, PostComment $postComment, Rate $rate)
     {
         $this->category = $category;
         $this->postImage = $postImage;
         $this->sharingPost = $sharingPost;
         $this->postComment = $postComment;
+        $this->rate = $rate;
     }
 
     //
     public function index()
     {
-        $sharingPosts =  $this->sharingPost->latest()->paginate(5);
-        return view('app.sharing.index',['sharingPosts'=>$sharingPosts]);
+        $sharingPosts = $this->sharingPost->latest()->paginate(5);
+        return view('app.sharing.index', ['sharingPosts' => $sharingPosts]);
     }
+
     public function single_post($id)
     {
         $featuredPosts = $this->sharingPost->inRandomOrder()->limit(3)->get();
@@ -55,34 +58,39 @@ class SharingPostController extends Controller
         $comments = $this->postComment->where(['parent_id' => '0', 'post_id' => $id])->get();
         $post = $this->sharingPost->find($id);
         $rates = $this->rate->where('post_id', $id)->get();
-        foreach ($rates as $rate){
-            $total = $total + $rate->value;
+        $total = 0;
+        foreach ($rates as $rate) {
+            if($rate->value ==1) {
+                $total = $total + $rate->value;
+            }
         }
+        if($total < 10) $total = '0'.$total;
         return view('app.sharing.post-detail', ['post' => $post,
             'featuredPosts' => $featuredPosts, 'latestPosts' => $latestPosts,
             'comments' => $comments, 'totalRate' => $total]);
     }
+
     public function single_post_comment(Request $request)
     {
-        if($this->notLoggedIn()) return redirect('user/login');
+        if ($this->notLoggedIn()) return redirect('user/login');
         DB::beginTransaction();
         $post_id = $request->post_id;
         $newComment = [
             'content' => $request->comment_content,
             'user_id' => Auth::user()->id
         ];
-        if(!empty($request->parent_id)){
+        if (!empty($request->parent_id)) {
             $newComment['parent_id'] = $request->parent_id;
         }
         $this->sharingPost->find($post_id)->comments()->create($newComment);
         DB::commit();
-        return redirect()->route('sharing.single-post',$post_id);
+        return redirect()->route('sharing.single-post', $post_id);
     }
 
     public function create()
     {
-        if($this->notLoggedIn()) return redirect()->to('user/login');
-        return view('app.sharing.create',['category_id' => 1, 'category_name'=>'sharing']);
+        if ($this->notLoggedIn()) return redirect()->to('user/login');
+        return view('app.sharing.create', ['category_id' => 1, 'category_name' => 'sharing']);
     }
 
     public function store(Request $req): RedirectResponse
@@ -147,40 +155,42 @@ class SharingPostController extends Controller
     {
 
     }
+
     //rate
-    public function CreateRate(Request $request)
+    public function createRate($id, $type)
     {
-        try{
-            if(is_null($request->comment_id)){
-                $rate = rate::where('user_id', $request->user_id)->where('post_id',$request->post_id)->first();
-                if(is_null($rate))
-                {
-                    $rate = rate::create([
-                        'user_id' => $request->user_id,
-                        'post_id' => $request->post_id,
-                        'comment_id' => $request->comment_id,
-                        'value' => $request->value,
-                    ]);
-                }
-                else
-                {
-                    $rate->value = $request->value;
-                    $rate->save();
+        if ($this->notLoggedIn()) return redirect()->to('user/login');
+        try {
+            $rate = Rate::where('user_id', Auth::id())->where('post_id', $id)->first();
+            if (is_null($rate)) {
+                Rate::create([
+                    'user_id' => Auth::id(),
+                    'post_id' => $id,
+                    'value' => $type,
+                ]);
+            } else {
+                $res = $rate->update([
+                    'value' => $type
+                ]);
+            }
+            $total = 0;
+            $rates = $this->rate->where('post_id', $id)->get();
+            foreach ($rates as $rate) {
+                if($rate->value ==1) {
+                    $total = $total + $rate->value;
                 }
             }
-            else
-            {
-                $rate = rate::where('user_id', $request->user_id)
-                    ->where('post_id',$request->post_id)
-                    ->where('comment_id',$request->comment_id)
-                    ->first();
-                $rate->value = $request->value;
-                $rate->save();
-            }
-            return True;
-        }
-        catch(Exception $e){
-            return $e->getMessage();
+            return \response()->json([
+                'code' => 200,
+                'message' => 'success',
+                'newValue' => $total
+            ]);
+        } catch (Exception $exception) {
+            Log::error('Message: ' . $exception->getMessage() . '----Line: ' . $exception->getLine());
+            return \response()->json([
+                'code' => 500,
+                'message' => 'fail'
+            ], 500);
         }
     }
 }

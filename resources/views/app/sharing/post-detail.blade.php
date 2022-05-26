@@ -7,20 +7,20 @@
 
 @section('custom_css')
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet">
+    <link href="{{asset('apps/sharing/single-post/font-css.css')}}" rel="stylesheet">
 
     <!-- CSS Libraries -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="lib/slick/slick.css" rel="stylesheet">
     <link href="lib/slick/slick-theme.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link href="{{asset('apps/sharing/single-post/style.css')}}" rel="stylesheet">
 @endsection
 
 @section('custom_js')
     <script src="{{asset('vendor/tinymce/tinymce.min.js')}}"></script>
     <script src="{{asset('apps/sharing/add/add.js')}}"></script>
-    <script src="https://cdn.tiny.cloud/1/hs0hspk14k2y30j7kqjieanll961v60zcy71z7m80zwbcnd4/tinymce/5/tinymce.min.js"
+    <script src="{{asset('apps/sharing/single-post/vote.js')}}"></script>
+    <script src="{{asset('apps/sharing/single-post/tinymce.min.js')}}"
             referrerpolicy="origin"></script>
 
 @endsection
@@ -40,6 +40,14 @@
                             <div class="row">
                                 {!! $post->content!!}
                             </div>
+                        </div>
+                    </div>
+                    {{--                    voting--}}
+                    <div class="row">
+                        <div class="col-md-1" style="font-size: 30px; color:#606060; text-align: center;">
+                            <a href="" class="btn btn-success action_vote" data-url="{{route('sharing.rate',['id' => $post->id, 'type'=>'1'])}}">UP</a>
+                            <span id="total-rate" class="col-md-12">{{$totalRate}}</span><!-- Number goes here -->
+                            <a href="" class="btn btn-success action_vote" data-url="{{route('sharing.rate',['id' => $post->id, 'type'=>'-1'])}}">DOWN</a>
                         </div>
                     </div>
                     {{--comments--}}

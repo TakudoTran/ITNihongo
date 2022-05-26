@@ -40,6 +40,10 @@ Route::prefix('sharing')->group(function (){
     Route::get('/edit/{id}', [SharingPostController::class, 'edit'])->name('sharing.edit');
     Route::post('/update/{id}', [SharingPostController::class, 'update'])->name('sharing.update');
     Route::get('/delete/{id}', [SharingPostController::class, 'delete'])->name('sharing.delete');
+
+    Route::get('/rate/{id}/{type}', [SharingPostController::class, 'createRate'])->name('sharing.rate');
+
+
 });
 
 

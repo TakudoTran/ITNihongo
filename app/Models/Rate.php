@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class rate extends Model
+class Rate extends Model
 {
     use HasFactory;
+    protected $guarded = [];
     public function Post()
     {
         return $this->belongsToMany(SharingPost::class, 'post_id');
