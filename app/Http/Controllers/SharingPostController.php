@@ -54,7 +54,8 @@ class SharingPostController extends Controller
         $latestPosts = $this->sharingPost->latest()->limit(3)->get();
         $comments = $this->postComment->where(['parent_id' => '0', 'post_id' => $id])->get();
         $post = $this->sharingPost->find($id);
-        $rates = $this->rate->where('post_id', $id)->get();
+        $rates = rate::where('post_id', $id)->get();
+        $total = 0;
         foreach ($rates as $rate){
             $total = $total + $rate->value;
         }

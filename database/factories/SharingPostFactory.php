@@ -18,7 +18,7 @@ class SharingPostFactory extends Factory
         'https://cdn.pixabay.com/photo/2022/03/23/17/16/waterfall-7087571__340.jpg',
         'https://cdn.pixabay.com/photo/2018/07/13/10/20/kittens-3535404__340.jpg',
         'https://cdn.pixabay.com/photo/2017/02/15/12/12/cat-2068462__340.jpg',
-        'https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492__340.jpg'.
+        'https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492__340.jpg',
         'https://cdn.pixabay.com/photo/2016/06/14/00/14/cat-1455468__340.jpg',
         'https://cdn.pixabay.com/photo/2017/07/25/01/22/cat-2536662__340.jpg',
         'https://cdn.pixabay.com/photo/2013/07/13/01/12/witch-155291__340.png',
