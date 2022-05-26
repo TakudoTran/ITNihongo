@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 use App\Models\SharingPost;
 use Illuminate\Support\Facades\Hash;
 use App\Models\PostComment;
-use App\Models\rate;
+use App\Models\Rate;
 // use App\Models\rate;
 
 class DatabaseSeeder extends Seeder
@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
                 'post_id' => $post->id,
                 'user_id' => $user[rand(0,($user->count()-1))]->id,
             ]);
-            rate::factory(rand(1, $user->count()))->create([
+            Rate::factory(rand(1, $user->count()))->create([
                 'post_id' => $post->id,
             ]);
         });

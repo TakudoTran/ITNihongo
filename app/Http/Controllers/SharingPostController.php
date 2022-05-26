@@ -149,39 +149,35 @@ class SharingPostController extends Controller
 
     }
     //rate
-    public function CreateRate(Request $request)
+    public function createRate($id, $type)
     {
         try{
-            if(is_null($request->comment_id)){
-                $rate = rate::where('user_id', $request->user_id)->where('post_id',$request->post_id)->first();
+                $rate = rate::where('user_id', Auth::id())->where('post_id',$id)->first();
                 if(is_null($rate))
                 {
                     $rate = rate::create([
-                        'user_id' => $request->user_id,
-                        'post_id' => $request->post_id,
-                        'comment_id' => $request->comment_id,
-                        'value' => $request->value,
+                        'user_id' => Auth::id(),
+                        'post_id' => $id,
+                        'value' => $type,
                     ]);
                 }
                 else
                 {
-                    $rate->value = $request->value;
-                    $rate->save();
+                    $rate->update([
+                        'value' => $type
+                    ]);
+
                 }
-            }
-            else
-            {
-                $rate = rate::where('user_id', $request->user_id)
-                    ->where('post_id',$request->post_id)
-                    ->where('comment_id',$request->comment_id)
-                    ->first();
-                $rate->value = $request->value;
-                $rate->save();
-            }
-            return True;
+            return response()->json([
+                'code' => 200,
+                'message' => 'success'
+            ], 200);
         }
         catch(Exception $e){
-            return $e->getMessage();
+            return response()->json([
+                'code' => 500,
+                'message' => 'failed'
+            ], 500);
         }
     }
 }
