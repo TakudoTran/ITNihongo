@@ -22,6 +22,10 @@ class SharingPost extends Model
     {
         return $this->hasMany(PostComment::class, 'post_id');
     }
+    public function rate(): HasMany
+    {
+        return $this->hasMany(rate::class, 'post_id');
+    }
 
     public function getCreatedAttribute(){
         return $this->attributes['created_at'];

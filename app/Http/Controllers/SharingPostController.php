@@ -13,7 +13,7 @@ use App\Models\ProductImage;
 use App\Models\ProductTag;
 use App\Models\SharingPost;
 use App\Models\Tag;
-use App\Models\rate;
+use App\Models\Rate;
 use App\Traits\CheckAuthTraits;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTraits;
@@ -57,14 +57,12 @@ class SharingPostController extends Controller
         $latestPosts = $this->sharingPost->latest()->limit(3)->get();
         $comments = $this->postComment->where(['parent_id' => '0', 'post_id' => $id])->get();
         $post = $this->sharingPost->find($id);
-        $rates = $this->rate->where('post_id', $id)->get();
+
+        $rates = Rate::where('post_id', $id)->get();
         $total = 0;
-        foreach ($rates as $rate) {
-            if($rate->value ==1) {
-                $total = $total + $rate->value;
-            }
+        foreach ($rates as $rate){
+            $total = $total + $rate->value;
         }
-        if($total < 10) $total = '0'.$total;
         return view('app.sharing.post-detail', ['post' => $post,
             'featuredPosts' => $featuredPosts, 'latestPosts' => $latestPosts,
             'comments' => $comments, 'totalRate' => $total]);
@@ -159,37 +157,32 @@ class SharingPostController extends Controller
     //rate
     public function createRate($id, $type)
     {
-        if ($this->notLoggedIn()) return redirect()->to('user/login');
-        try {
-            $rate = Rate::where('user_id', Auth::id())->where('post_id', $id)->first();
-            if (is_null($rate)) {
-                Rate::create([
-                    'user_id' => Auth::id(),
-                    'post_id' => $id,
-                    'value' => $type,
-                ]);
-            } else {
-                $res = $rate->update([
-                    'value' => $type
-                ]);
-            }
-            $total = 0;
-            $rates = $this->rate->where('post_id', $id)->get();
-            foreach ($rates as $rate) {
-                if($rate->value ==1) {
-                    $total = $total + $rate->value;
+        try{
+                $rate = rate::where('user_id', Auth::id())->where('post_id',$id)->first();
+                if(is_null($rate))
+                {
+                    $rate = rate::create([
+                        'user_id' => Auth::id(),
+                        'post_id' => $id,
+                        'value' => $type,
+                    ]);
                 }
-            }
-            return \response()->json([
+                else
+                {
+                    $rate->update([
+                        'value' => $type
+                    ]);
+
+                }
+            return response()->json([
                 'code' => 200,
-                'message' => 'success',
-                'newValue' => $total
-            ]);
-        } catch (Exception $exception) {
-            Log::error('Message: ' . $exception->getMessage() . '----Line: ' . $exception->getLine());
-            return \response()->json([
+                'message' => 'success'
+            ], 200);
+        }
+        catch(Exception $e){
+            return response()->json([
                 'code' => 500,
-                'message' => 'fail'
+                'message' => 'failed'
             ], 500);
         }
     }

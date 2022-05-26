@@ -11,14 +11,14 @@ class Rate extends Model
     protected $guarded = [];
     public function Post()
     {
-        return $this->belongsToMany(SharingPost::class, 'post_id');
+        return $this->belongsTo(SharingPost::class, 'post_id');
     }
     public function User()
     {
-        return $this->belongsToMany(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
     public function PostComment()
     {
-        return $this->belongsToMany(PostComment::class, 'comment_id');
+        return $this->belongsTo(PostComment::class, 'comment_id');
     }
 }

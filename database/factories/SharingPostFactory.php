@@ -13,6 +13,16 @@ class SharingPostFactory extends Factory
      */
     public function definition()
     {
+        $links = [
+        'https://cdn.pixabay.com/photo/2022/04/19/20/43/daffodil-7143756__340.jpg',
+        'https://cdn.pixabay.com/photo/2022/03/23/17/16/waterfall-7087571__340.jpg',
+        'https://cdn.pixabay.com/photo/2018/07/13/10/20/kittens-3535404__340.jpg',
+        'https://cdn.pixabay.com/photo/2017/02/15/12/12/cat-2068462__340.jpg',
+        'https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492__340.jpg',
+        'https://cdn.pixabay.com/photo/2016/06/14/00/14/cat-1455468__340.jpg',
+        'https://cdn.pixabay.com/photo/2017/07/25/01/22/cat-2536662__340.jpg',
+        'https://cdn.pixabay.com/photo/2013/07/13/01/12/witch-155291__340.png',
+        'https://cdn.pixabay.com/photo/2017/04/30/18/33/kittens-2273598__340.jpg'];
         $content ='';
         for($i = 0; $i < rand(50,100); $i++)
         {
@@ -21,7 +31,7 @@ class SharingPostFactory extends Factory
         return [
             'title' => $this->faker->sentence(rand(5,10)),
             'content' => $content,
-            'main_img_path' => $this->faker->url,
+            'main_img_path' => $this->faker->randomElement($links),
             'main_img_name' => $this->faker->name(),
         ];
     }
