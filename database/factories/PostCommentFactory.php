@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class SharingPostFactory extends Factory
+class PostCommentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,15 +14,12 @@ class SharingPostFactory extends Factory
     public function definition()
     {
         $content ='';
-        for($i = 0; $i < rand(50,100); $i++)
+        for($i = 0; $i < rand(1,10); $i++)
         {
-            $content .= '<p>'.$this->faker->sentence(rand(5,10), true).'</p>';
+            $content .= $this->faker->sentence(rand(5,10), true);
         }
         return [
-            'title' => $this->faker->sentence(rand(5,10)),
             'content' => $content,
-            'main_img_path' => $this->faker->url,
-            'main_img_name' => $this->faker->name(),
         ];
     }
 }

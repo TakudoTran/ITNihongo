@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use App\Models\SharingPost;
 use Illuminate\Support\Facades\Hash;
+use App\Models\PostComment;
 // use App\Models\rate;
 
 class DatabaseSeeder extends Seeder
@@ -27,5 +28,12 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->call(CategorySeeder::class);
         $this->call(UserSeeder::class);
+        $user = User::all();
+        $post = SharingPost::all()->each(function($post) use($user) {
+            PostComment::factory(rand(1, 10))->create([
+                'post_id' => $post->id,
+                'user_id' => $user[rand(0,($user->count()-1))]->id,
+            ]);
+        });
     }
 }
