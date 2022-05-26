@@ -13,6 +13,7 @@ use App\Models\ProductImage;
 use App\Models\ProductTag;
 use App\Models\SharingPost;
 use App\Models\Tag;
+use App\Models\rate;
 use App\Traits\CheckAuthTraits;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTraits;
@@ -53,9 +54,13 @@ class SharingPostController extends Controller
         $latestPosts = $this->sharingPost->latest()->limit(3)->get();
         $comments = $this->postComment->where(['parent_id' => '0', 'post_id' => $id])->get();
         $post = $this->sharingPost->find($id);
+        $rates = $this->rate->where('post_id', $id)->get();
+        foreach ($rates as $rate){
+            $total = $total + $rate->value;
+        }
         return view('app.sharing.post-detail', ['post' => $post,
             'featuredPosts' => $featuredPosts, 'latestPosts' => $latestPosts,
-            'comments' => $comments]);
+            'comments' => $comments, 'totalRate' => $total]);
     }
     public function single_post_comment(Request $request)
     {
@@ -142,5 +147,40 @@ class SharingPostController extends Controller
     {
 
     }
-
+    //rate
+    public function CreateRate(Request $request)
+    {
+        try{
+            if(is_null($request->comment_id)){
+                $rate = rate::where('user_id', $request->user_id)->where('post_id',$request->post_id)->first();
+                if(is_null($rate))
+                {
+                    $rate = rate::create([
+                        'user_id' => $request->user_id,
+                        'post_id' => $request->post_id,
+                        'comment_id' => $request->comment_id,
+                        'value' => $request->value,
+                    ]);
+                }
+                else
+                {
+                    $rate->value = $request->value;
+                    $rate->save();
+                }
+            }
+            else
+            {
+                $rate = rate::where('user_id', $request->user_id)
+                    ->where('post_id',$request->post_id)
+                    ->where('comment_id',$request->comment_id)
+                    ->first();
+                $rate->value = $request->value;
+                $rate->save();
+            }
+            return True;
+        }
+        catch(Exception $e){
+            return $e->getMessage();
+        }
+    }
 }
